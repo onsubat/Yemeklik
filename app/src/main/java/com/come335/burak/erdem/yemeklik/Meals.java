@@ -1,7 +1,9 @@
 package com.come335.burak.erdem.yemeklik;
 
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +23,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -31,9 +37,8 @@ import java.util.ArrayList;
 
 public class Meals extends AppCompatActivity{
 
-    private ArrayList<Integer> images = new ArrayList<Integer>();
+    private ArrayList<String> images = new ArrayList<String>();
     private ArrayList<String>  names = new ArrayList<String>();
-    private SingleMeal meal;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -52,21 +57,16 @@ public class Meals extends AppCompatActivity{
 ////////////////////////////////////////////////////////////////////////////////////////////////////
                                     /*Initializing Variables*/
 
-        images.add(R.drawable.iskender);
+        rView = findViewById(R.id.rview);
+//        images.add(R.drawable.iskender);
 //        images.add(R.drawable.manti);
 //        images.add(R.drawable.iskender);
 //        images.add(R.drawable.manti);
 
-        names.add("iskender");
+//        names.add("iskender");
 //        names.add("manti");
 //        names.add("iskender");
 //        names.add("manti");
-
-        rView = findViewById(R.id.rview);
-        rAdapter = new RecyclerViewAdapter(this, images, names);
-        rView.setAdapter(rAdapter);
-        rView.setLayoutManager(new LinearLayoutManager(this));
-        rView.setHasFixedSize(true);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -110,33 +110,48 @@ public class Meals extends AppCompatActivity{
 
     private void showData(DataSnapshot dataSnapshot)
     {
-        long count = dataSnapshot.getChildrenCount();
+        long maxCount = dataSnapshot.getChildrenCount();
+        long count = 0;
+        toastMessage(String.valueOf(maxCount));
+        SingleMeal meal = new SingleMeal();
         for(DataSnapshot ds: dataSnapshot.getChildren())
         {
-            SingleMeal meal = new SingleMeal();
-            meal.setName(ds.child("0").getValue(SingleMeal.class).getName());
-            meal.setContent(ds.child("0").getValue(SingleMeal.class).getContent());
-            meal.setImage(ds.child("0").getValue(SingleMeal.class).getImage());
-//            names.add(meal.getName());
+            SingleMeal tempMeal = new SingleMeal();
+            tempMeal.setName(ds.child("1").getValue(SingleMeal.class).getName());
+            tempMeal.setContent(ds.child("1").getValue(SingleMeal.class).getContent());
+            tempMeal.setPhotoURL(ds.child("1").getValue(SingleMeal.class).getPhotoURL());
+            meal = tempMeal;
         }
+
+        images.add(meal.getPhotoURL());
+        names.add(meal.getName());
+        InitiateRecycleView();
+
+    }
+    private void InitiateRecycleView()
+    {
+        rView.setLayoutManager(new LinearLayoutManager(this));
+        rView.setHasFixedSize(true);
+        rAdapter = new RecyclerViewAdapter(this, images, names);
+        rView.setAdapter(rAdapter);
     }
 
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-        if (mAuthListener != null)
-        {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
+//    @Override
+//    public void onStart()
+//    {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//    @Override
+//    public void onStop()
+//    {
+//        super.onStop();
+//        if (mAuthListener != null)
+//        {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
 
     private void toastMessage(String message)
     {
