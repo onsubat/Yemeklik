@@ -43,6 +43,13 @@
                 android:maxLines="1"
                 />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email Ex: xxx@yyy.zzz"
+                android:textColor="#B4B4B4"
+                android:layout_marginStart="5dp"/>
+
             <Button
                 android:id="@+id/btnLogIn"
                 style="?android:textAppearanceSmall"
@@ -51,36 +58,25 @@
                 android:layout_marginTop="16dp"
                 android:text="Log In"
                 android:textStyle="bold"
-                android:background="#009933"
+                android:background="#00AF05"
                 android:textColor="#ffffff"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
-
-            <Button
-                android:id="@+id/btnLogOut"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Log out"
-                android:textStyle="bold"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="250dp"
                 android:layout_marginBottom="5dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Need an account? Sign in now!"
+                    android:text="Don't have an account? Sign in now!"
                     android:textColor="#000000"
                     android:textAlignment="center" />
 
                 <Button
-                    android:id="@+id/btnGoSignIn"
+                    android:id="@+id/btnGoToSignIn"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

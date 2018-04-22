@@ -20,8 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity{
 
     Button btnLogIn;
-    Button btnLogOut;
-    Button btnGoSignIn;
+    Button btnGoToSignIn;
     private FirebaseAuth mAuth;
     private EditText mEmail, mPassword;
 
@@ -38,8 +37,7 @@ public class LoginActivity extends AppCompatActivity{
 
         mAuth = FirebaseAuth.getInstance();
         btnLogIn = findViewById(R.id.btnLogIn);
-        btnLogOut = findViewById(R.id.btnLogOut);
-        btnGoSignIn = findViewById(R.id.btnGoSignIn);
+        btnGoToSignIn = findViewById(R.id.btnGoToSignIn);
         mEmail =  findViewById(R.id.email);
         mPassword =  findViewById(R.id.password);
 
@@ -47,32 +45,33 @@ public class LoginActivity extends AppCompatActivity{
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
+        btnLogIn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String email = mEmail.getText().toString();
                 String pass = mPassword.getText().toString();
-                if(!email.equals("") && !pass.equals("")){
+                if(!email.equals("") && !pass.equals(""))
+                {
                     mAuth.signInWithEmailAndPassword(email,pass);
                     toastMessage("Logged in");
-                }else{
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
                     toastMessage("You didn't fill in all the fields.");
                 }
             }
         });
 
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
+        btnGoToSignIn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                toastMessage("Logging Out...");
-            }
-        });
-
-        btnGoSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,SignInActivity.class);
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(LoginActivity.this, SignInActivity.class);
                 startActivity(intent);
             }
         });
@@ -92,7 +91,8 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    private void toastMessage(String message){
+    private void toastMessage(String message)
+    {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }
