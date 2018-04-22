@@ -19,6 +19,7 @@
         <activity android:name=".Meals"/>
         <activity android:name=".DetailsActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".SignInActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
