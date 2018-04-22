@@ -46,18 +46,17 @@ public class Meals extends AppCompatActivity{
         images.add(R.drawable.manti);
 
 
-        String url = "https://firebasestorage.googleapis.com/v0/b/yemeklik-e3353.appspot.com/o/karniyarik.jpg?alt=media&token=9b1e8e0d-148a-410f-a638-2db334e63338";
-        tempImage = (ImageView)findViewById(R.id.tempImage);
-        Glide.with(getApplicationContext()).load(url).into(tempImage);
-        images.add(tempImage.getId());
+//        String url = "https://firebasestorage.googleapis.com/v0/b/yemeklik-e3353.appspot.com/o/karniyarik.jpg?alt=media&token=9b1e8e0d-148a-410f-a638-2db334e63338";
+//        tempImage = findViewById(R.id.tempImage);
+//        Glide.with(getApplicationContext()).load(url).into(tempImage);
+//        int drawableId = Integer.parseInt(tempImage.getTag().toString());
+//        images.add(drawableId);
 
 
         names.add("iskender");
         names.add("manti");
         names.add("iskender");
         names.add("manti");
-        names.add("karniyarik");
-
 
         rView = findViewById(R.id.rview);
         rAdapter = new RecyclerViewAdapter(this, images, names);
