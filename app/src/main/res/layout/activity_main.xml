@@ -59,11 +59,4 @@
         android:text="User Info"
         android:textAlignment="center" />
 
-    <ImageView
-        android:id="@+id/ivDeneme"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 </RelativeLayout>

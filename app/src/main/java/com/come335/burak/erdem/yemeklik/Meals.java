@@ -1,13 +1,13 @@
 package com.come335.burak.erdem.yemeklik;
 
+import android.media.Image;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -25,6 +25,8 @@ public class Meals extends AppCompatActivity{
     private ArrayList<String>  names = new ArrayList<String>();
     private StorageReference mStorageRef;
     private StorageReference riversRef;
+    private ImageView tempImage;
+
 
     RecyclerView rView;
     RecyclerView.Adapter rAdapter;
@@ -44,12 +46,17 @@ public class Meals extends AppCompatActivity{
         images.add(R.drawable.manti);
 
 
+        String url = "https://firebasestorage.googleapis.com/v0/b/yemeklik-e3353.appspot.com/o/karniyarik.jpg?alt=media&token=9b1e8e0d-148a-410f-a638-2db334e63338";
+        tempImage = (ImageView)findViewById(R.id.tempImage);
+        Glide.with(getApplicationContext()).load(url).into(tempImage);
+        images.add(tempImage.getId());
 
 
         names.add("iskender");
         names.add("manti");
         names.add("iskender");
         names.add("manti");
+        names.add("karniyarik");
 
 
         rView = findViewById(R.id.rview);
