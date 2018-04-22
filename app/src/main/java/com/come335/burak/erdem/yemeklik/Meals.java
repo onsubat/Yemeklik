@@ -1,10 +1,18 @@
 package com.come335.burak.erdem.yemeklik;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +23,8 @@ public class Meals extends AppCompatActivity{
 
     private ArrayList<Integer> images = new ArrayList<Integer>();
     private ArrayList<String>  names = new ArrayList<String>();
+    private StorageReference mStorageRef;
+    private StorageReference riversRef;
 
     RecyclerView rView;
     RecyclerView.Adapter rAdapter;
@@ -33,6 +43,9 @@ public class Meals extends AppCompatActivity{
         images.add(R.drawable.iskender);
         images.add(R.drawable.manti);
 
+
+
+
         names.add("iskender");
         names.add("manti");
         names.add("iskender");
@@ -45,10 +58,31 @@ public class Meals extends AppCompatActivity{
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        riversRef = mStorageRef.child("images/rivers.jpg");
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     }
+
+//    private void LoadContent()
+//    {
+//        File localFile = File.createTempFile("images", "jpg");
+//        riversRef.getFile(localFile)
+//                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                        // Successfully downloaded data to local file
+//                        // ...
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle failed download
+//                // ...
+//            }
+//        });
+//    }
 
 }

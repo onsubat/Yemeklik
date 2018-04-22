@@ -7,15 +7,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnWhatToEat;
-    Button btnShowMenu;
+    Button btnShowAllMeals;
     Button btnLogOut;
     TextView tv_userInfo;
     private FirebaseAuth mAuth;
@@ -33,13 +38,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnWhatToEat = findViewById(R.id.btnWhatToEat);
-        btnShowMenu = findViewById(R.id.btnShowMenu);
+        btnShowAllMeals = findViewById(R.id.btnShowAllMeals);
         btnLogOut = findViewById(R.id.btnLogOut);
         mAuth = FirebaseAuth.getInstance();
         tv_userInfo = findViewById(R.id.tv_userInfo);
         Intent getIntent = getIntent();
         tv_userInfo.setText("Logged in as: "+getIntent.getStringExtra("userInfo"));
 
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("karniyarik.jpg");
+        ImageView image = findViewById(R.id.ivDeneme);
+
+        Glide.with(this /* context */)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .into(image );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnShowMenu.setOnClickListener(new View.OnClickListener() {
+        btnShowAllMeals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Meals.class);

@@ -25,7 +25,7 @@
         android:text="  What to Eat?  " />
 
     <Button
-        android:id="@+id/btnShowMenu"
+        android:id="@+id/btnShowAllMeals"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
@@ -58,4 +58,12 @@
         android:layout_marginBottom="10dp"
         android:text="User Info"
         android:textAlignment="center" />
+
+    <ImageView
+        android:id="@+id/ivDeneme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 </RelativeLayout>
