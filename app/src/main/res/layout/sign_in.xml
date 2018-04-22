@@ -41,12 +41,19 @@
                 android:inputType="textPassword"
                 android:maxLines="1"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email Ex: xxx@yyy.zzz"
+                android:textColor="#B4B4B4"
+                android:layout_marginStart="5dp"/>
+
             <Button
                 android:id="@+id/btnSignIn"
                 style="@android:style/Widget.DeviceDefault.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="#009933"
