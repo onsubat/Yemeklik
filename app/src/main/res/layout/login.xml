@@ -43,13 +43,6 @@
                 android:maxLines="1"
                 />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Email Ex: xxx@yyy.zzz"
-                android:textColor="#B4B4B4"
-                android:layout_marginStart="5dp"/>
-
             <Button
                 android:id="@+id/btnLogIn"
                 style="?android:textAppearanceSmall"

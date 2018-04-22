@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnWhatToEat;
     Button btnShowMenu;
     Button btnLogOut;
+    TextView tv_userInfo;
     private FirebaseAuth mAuth;
 
 
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         btnShowMenu = findViewById(R.id.btnShowMenu);
         btnLogOut = findViewById(R.id.btnLogOut);
         mAuth = FirebaseAuth.getInstance();
+        tv_userInfo = findViewById(R.id.tv_userInfo);
+        Intent getIntent = getIntent();
+        tv_userInfo.setText("Logged in as: "+getIntent.getStringExtra("userInfo"));
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
