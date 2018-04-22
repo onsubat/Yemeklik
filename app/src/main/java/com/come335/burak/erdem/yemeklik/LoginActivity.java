@@ -1,5 +1,6 @@
 package com.come335.burak.erdem.yemeklik;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity{
 
-    Button btnSignIn;
-    Button btnSignOut;
+    Button btnLogIn;
+    Button btnLogOut;
+    Button btnGoSignIn;
     private FirebaseAuth mAuth;
     private EditText mEmail, mPassword;
 
@@ -35,34 +37,43 @@ public class LoginActivity extends AppCompatActivity{
 
 
         mAuth = FirebaseAuth.getInstance();
-        btnSignIn =(Button) findViewById(R.id.btnSignIn);
-        btnSignOut =(Button) findViewById(R.id.btnSignOut);
-        mEmail = (EditText) findViewById(R.id.email);
-        mPassword = (EditText) findViewById(R.id.password);
+        btnLogIn = findViewById(R.id.btnLogIn);
+        btnLogOut = findViewById(R.id.btnLogOut);
+        btnGoSignIn = findViewById(R.id.btnGoSignIn);
+        mEmail =  findViewById(R.id.email);
+        mPassword =  findViewById(R.id.password);
 
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = mEmail.getText().toString();
                 String pass = mPassword.getText().toString();
                 if(!email.equals("") && !pass.equals("")){
                     mAuth.signInWithEmailAndPassword(email,pass);
-                    toastMessage("Signed");
+                    toastMessage("Logged in");
                 }else{
                     toastMessage("You didn't fill in all the fields.");
                 }
             }
         });
 
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
-                toastMessage("Signing Out...");
+                toastMessage("Logging Out...");
+            }
+        });
+
+        btnGoSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this,SignInActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -75,14 +86,10 @@ public class LoginActivity extends AppCompatActivity{
 
         if (currentUser != null) {
             // User is signed in
-            toastMessage("Successfully signed in with: " + currentUser.getEmail());
+            toastMessage("Successfully logged in with: " + currentUser.getEmail());
         } else {
             // User is signed out
-            toastMessage("Successfully signed out.");
         }
-/*
-        updateUI(currentUser);
-*/
     }
 
     private void toastMessage(String message){
