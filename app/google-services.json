@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "536635371015",
+    "firebase_url": "https://yemeklik-e3353.firebaseio.com",
+    "project_id": "yemeklik-e3353",
+    "storage_bucket": "yemeklik-e3353.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536635371015:android:2e224697e9bc88e3",
+        "android_client_info": {
+          "package_name": "com.come335.burak.erdem.yemeklik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536635371015-5m7smqvk1i606at3qrqs6ld78e3ce9dn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.come335.burak.erdem.yemeklik",
+            "certificate_hash": "7e3f6c7a53cbb9c7374cfd5567a7fd70dd3399f5"
+          }
+        },
+        {
+          "client_id": "536635371015-o14ajh3f0ok7vv2d0vejqck5nu3bf3b8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0b1WzuJH5C27zVsLuot3CE2Y0N-dDYKU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536635371015-o14ajh3f0ok7vv2d0vejqck5nu3bf3b8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
