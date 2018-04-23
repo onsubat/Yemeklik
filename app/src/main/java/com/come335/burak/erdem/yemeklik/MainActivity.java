@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -50,18 +51,21 @@ public class MainActivity extends AppCompatActivity {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        btnWhatToEat.setOnClickListener(new View.OnClickListener() {
+        btnWhatToEat.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(MainActivity.this, WhatToEatActivity.class);
+                startActivity(intent);
             }
         });
 
-        btnShowAllMeals.setOnClickListener(new View.OnClickListener() {
+        btnShowAllMeals.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Meals.class);
-//                intent.putExtra();
                 startActivity(intent);
             }
         });

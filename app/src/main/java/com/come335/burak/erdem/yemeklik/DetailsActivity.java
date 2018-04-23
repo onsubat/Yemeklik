@@ -32,6 +32,7 @@ public class DetailsActivity extends AppCompatActivity {
     float mealRating;
     float mealTotalPoints;
     int mealTimesRated;
+    boolean boolSetDetails;
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -72,8 +73,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-
-
+        boolSetDetails = true;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,16 +109,23 @@ public class DetailsActivity extends AppCompatActivity {
                 for (DataSnapshot ds : dataSnapshot.getChildren())
                 {
                     SingleMeal tempMeal = new SingleMeal();
+                    tempMeal.setName(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
+                    tempMeal.setContent(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
+                    tempMeal.setPhotoURL(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
                     tempMeal.setTimesRated(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated());
                     tempMeal.setTotalPoints(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints());
 
+                    mealName = tempMeal.getName();
+                    mealContent = tempMeal.getContent();
+                    mealImage = tempMeal.getPhotoURL();
                     mealTimesRated = tempMeal.getTimesRated();
                     mealTotalPoints = tempMeal.getTotalPoints();
                     mealRating = tempMeal.calculateRating(mealTotalPoints, mealTimesRated);
 
                     myRef.child("meal").child(String.valueOf(mealId)).child("rating").setValue(mealRating);
-
                     ratingT.setText(String.valueOf(mealRating));
+
+                    setDetails(boolSetDetails);
                 }
             }
 
@@ -129,28 +136,30 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        getIncomingIntent();
+        getIdWithIntent();
         listenerForRatingBar();
+
+
     }///////////////////////////////OnCreateEnds////////////////////////////////////////////////////
 
-    private void getIncomingIntent()
+    private void getIdWithIntent()
     {
-        mealName = getIntent().getStringExtra("name");
-        mealContent = getIntent().getStringExtra("content");
-        mealImage = getIntent().getStringExtra("image");
         mealId = getIntent().getIntExtra("id", 0);
-
-        setDetails();
-
     }
 
-    private void setDetails()
+    private void setDetails(boolean _bool)
     {
-        nameT.setText(mealName);
+        if(_bool == true)
+        {
+            boolSetDetails = false;
 
-        contentT.setText(mealContent);
+            nameT.setText(mealName);
 
-        Glide.with(this).asBitmap().load(mealImage).into(imageV);
+            contentT.setText(mealContent);
+
+            Glide.with(this).asBitmap().load(mealImage).into(imageV);
+        }
+
     }
 
     public void listenerForRatingBar()

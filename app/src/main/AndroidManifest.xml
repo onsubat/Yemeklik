@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.come335.burak.erdem.yemeklik">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true"
+        />
 
     <application
         android:allowBackup="true"
@@ -20,6 +24,7 @@
         <activity android:name=".DetailsActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignInActivity" />
+        <activity android:name=".WhatToEatActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

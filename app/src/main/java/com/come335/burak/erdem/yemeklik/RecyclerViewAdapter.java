@@ -67,10 +67,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Log.d(TAG, "onClick: clicked on: " + mNames.get(position));
 
                 Intent intent = new Intent(mContext, DetailsActivity.class);        ///////////////INTENT///////////////
-                intent.putExtra("image", mImages.get(position));
-                intent.putExtra("name", mNames.get(position));
-                intent.putExtra("content", mContent.get(position));
-                intent.putExtra("rating", mRatings.get(position));
                 intent.putExtra("id", mIds.get(position));
 
                 mContext.startActivity(intent);
