@@ -15,7 +15,8 @@ import com.bumptech.glide.Glide;
 public class DetailsActivity extends AppCompatActivity {
 
     String mealName;
-    int mealImage;
+    String mealContent;
+    String mealImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,8 +28,9 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void getIncomingIntent()
     {
-        mealImage = getIntent().getIntExtra("image", 0);
         mealName = getIntent().getStringExtra("name");
+        mealContent = getIntent().getStringExtra("content");
+        mealImage = getIntent().getStringExtra("image");
 
         setDetails();
 
@@ -38,6 +40,9 @@ public class DetailsActivity extends AppCompatActivity {
     {
         TextView nameT = findViewById(R.id.tv_name);
         nameT.setText(mealName);
+
+        TextView contentT = findViewById(R.id.tv_content);
+        contentT.setText(mealContent);
 
         ImageView imageV = findViewById(R.id.iv_meal);
         Glide.with(this).asBitmap().load(mealImage).into(imageV);

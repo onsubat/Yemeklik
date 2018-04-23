@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Erdem on 21-Apr-18.
@@ -38,7 +39,8 @@ import java.util.ArrayList;
 public class Meals extends AppCompatActivity{
 
     private ArrayList<String> images = new ArrayList<String>();
-    private ArrayList<String>  names = new ArrayList<String>();
+    private ArrayList<String> names = new ArrayList<String>();
+    private ArrayList<String> contents = new ArrayList<String>();
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -58,38 +60,14 @@ public class Meals extends AppCompatActivity{
                                     /*Initializing Variables*/
 
         rView = findViewById(R.id.rview);
-//        images.add(R.drawable.iskender);
-//        images.add(R.drawable.manti);
-//        images.add(R.drawable.iskender);
-//        images.add(R.drawable.manti);
-
-//        names.add("iskender");
-//        names.add("manti");
-//        names.add("iskender");
-//        names.add("manti");
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
-        FirebaseUser user = mAuth.getCurrentUser();
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    toastMessage("Successfully signed in with: " + user.getEmail());
-                } else {
-                    // User is signed out
-                    toastMessage("Successfully signed out.");
-                }
-                // ...
-            }
-        };
 
         myRef.addValueEventListener(new ValueEventListener()
         {
@@ -110,48 +88,33 @@ public class Meals extends AppCompatActivity{
 
     private void showData(DataSnapshot dataSnapshot)
     {
-        long maxCount = dataSnapshot.getChildrenCount();
-        long count = 0;
-        toastMessage(String.valueOf(maxCount));
-        SingleMeal meal = new SingleMeal();
-        for(DataSnapshot ds: dataSnapshot.getChildren())
+        long maxCount = dataSnapshot.child("meal").getChildrenCount();
+        Random rand = new Random();
+
+        for(int i = 1; i <= maxCount; i++)
         {
-            SingleMeal tempMeal = new SingleMeal();
-            tempMeal.setName(ds.child("1").getValue(SingleMeal.class).getName());
-            tempMeal.setContent(ds.child("1").getValue(SingleMeal.class).getContent());
-            tempMeal.setPhotoURL(ds.child("1").getValue(SingleMeal.class).getPhotoURL());
-            meal = tempMeal;
+            for (DataSnapshot ds : dataSnapshot.getChildren())
+            {
+                int randomId = rand.nextInt((int) maxCount);
+
+                names.add(ds.child(String.valueOf(randomId)).getValue(SingleMeal.class).getName());
+                contents.add(ds.child(String.valueOf(randomId)).getValue(SingleMeal.class).getContent());
+                images.add(ds.child(String.valueOf(randomId)).getValue(SingleMeal.class).getPhotoURL());
+            }
         }
 
-        images.add(meal.getPhotoURL());
-        names.add(meal.getName());
         InitiateRecycleView();
 
     }
+
     private void InitiateRecycleView()
     {
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);
-        rAdapter = new RecyclerViewAdapter(this, images, names);
+        rAdapter = new RecyclerViewAdapter(this,names, contents, images);
         rView.setAdapter(rAdapter);
     }
 
-//    @Override
-//    public void onStart()
-//    {
-//        super.onStart();
-//        mAuth.addAuthStateListener(mAuthListener);
-//    }
-//
-//    @Override
-//    public void onStop()
-//    {
-//        super.onStop();
-//        if (mAuthListener != null)
-//        {
-//            mAuth.removeAuthStateListener(mAuthListener);
-//        }
-//    }
 
     private void toastMessage(String message)
     {
