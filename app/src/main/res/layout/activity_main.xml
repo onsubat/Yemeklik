@@ -25,6 +25,18 @@
         android:text="  What to Eat?  " />
 
     <Button
+        android:id="@+id/btnHistory"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:background="#ffff66"
+        android:fontFamily="@font/aclonica"
+        android:text="History" />
+
+    <Button
         android:id="@+id/btnShowAllMeals"
         android:layout_width="match_parent"
         android:layout_height="100dp"

@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnWhatToEat;
     Button btnShowAllMeals;
     Button btnLogOut;
+    Button btnHistory;
     TextView tv_userInfo;
     private FirebaseAuth mAuth;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
                                     /*Initializing Variables*/
 
-
+        btnHistory = findViewById(R.id.btnHistory);
         btnWhatToEat = findViewById(R.id.btnWhatToEat);
         btnShowAllMeals = findViewById(R.id.btnShowAllMeals);
         btnLogOut = findViewById(R.id.btnLogOut);
@@ -42,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+        btnHistory.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                toastMessage("Henuz bitmemisti :(");
+            }
+        });
 
         btnWhatToEat.setOnClickListener(new View.OnClickListener()
         {

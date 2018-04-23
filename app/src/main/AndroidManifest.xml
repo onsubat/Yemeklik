@@ -25,6 +25,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".WhatToEatActivity" />
+        <activity android:name=".HistoryActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

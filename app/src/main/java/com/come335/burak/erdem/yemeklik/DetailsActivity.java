@@ -1,5 +1,6 @@
 package com.come335.burak.erdem.yemeklik;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -101,6 +102,21 @@ public class DetailsActivity extends AppCompatActivity {
                 btnMap.setClickable(true);
                 myRef.child("meal").child(String.valueOf(mealId)).child("totalPoints").setValue(mealTotalPoints + ratingBarValue);
                 myRef.child("meal").child(String.valueOf(mealId)).child("timesRated").setValue(mealTimesRated + 1);
+            }
+        });
+
+        btnShare.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String shareSub = "Yemeklik Uygulamasi: Yemegi Paylasma";
+                String shareBody = "Yemeklik Uygulamasi:" + "\n" + mealName + "\n" + mealContent;
+                intent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                intent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(intent, "SHARE"));
             }
         });
 
