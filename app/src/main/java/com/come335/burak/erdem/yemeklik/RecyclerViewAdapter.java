@@ -29,12 +29,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mContent = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<Float> mRatings = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context , ArrayList<String> names, ArrayList<String> content, ArrayList<String> images) {
+    public RecyclerViewAdapter(Context context , ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<Float> ratings) {
         mNames = names;
         mContent = content;
         mImages = images;
+        mRatings = ratings;
         mContext = context;
     }
 
@@ -65,6 +67,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra("image", mImages.get(position));
                 intent.putExtra("name", mNames.get(position));
                 intent.putExtra("content", mContent.get(position));
+                intent.putExtra("rating", mContent.get(position));
 
                 mContext.startActivity(intent);
             }

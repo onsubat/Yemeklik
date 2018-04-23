@@ -9,6 +9,9 @@ public class SingleMeal
     String name;
     String content;
     String photoURL;
+    float points;
+    float timesRated;
+    float rating;
 
     public SingleMeal()
     {
@@ -44,12 +47,26 @@ public class SingleMeal
 
     public String getContent()
     {
-
         return content;
     }
 
     public String getPhotoURL()
     {
         return photoURL;
+    }
+
+    public void addPoints(int _points)
+    {
+        points += _points;
+    }
+
+    public void calculateRating()
+    {
+        rating = points/timesRated;
+    }
+
+    public float getRating()
+    {
+        return rating;
     }
 }
