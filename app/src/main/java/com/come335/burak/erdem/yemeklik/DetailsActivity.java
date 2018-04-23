@@ -28,7 +28,6 @@ public class DetailsActivity extends AppCompatActivity {
     String mealName;
     String mealContent;
     String mealImage;
-    float ratingPointsToSend;
     float mealRating;
     float mealTotalPoints;
     int mealTimesRated;
@@ -38,6 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
     DatabaseReference myRef;
 
     Button btnRate;
+    Button btnMap;
     Button btnShare;
     RatingBar ratingBar;
     float ratingBarValue;
@@ -60,6 +60,7 @@ public class DetailsActivity extends AppCompatActivity {
                                     /*Initializing Variables*/
 
         btnRate = findViewById(R.id.btnRate);
+        btnMap = findViewById(R.id.btnMap);
         btnShare = findViewById(R.id.btnShare);
         ratingBar = findViewById(R.id.ratingBar);
         ratingLayout = findViewById(R.id.ratingLayout);
@@ -85,6 +86,7 @@ public class DetailsActivity extends AppCompatActivity {
                 ratingLayout.setVisibility(View.VISIBLE);
                 btnRate.setClickable(false);
                 btnShare.setClickable(false);
+                btnMap.setClickable(false);
             }
         });
 
@@ -96,6 +98,7 @@ public class DetailsActivity extends AppCompatActivity {
                 ratingLayout.setVisibility(View.GONE);
                 btnRate.setClickable(true);
                 btnShare.setClickable(true);
+                btnMap.setClickable(true);
                 myRef.child("meal").child(String.valueOf(mealId)).child("totalPoints").setValue(mealTotalPoints + ratingBarValue);
                 myRef.child("meal").child(String.valueOf(mealId)).child("timesRated").setValue(mealTimesRated + 1);
             }

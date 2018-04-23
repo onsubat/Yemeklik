@@ -7,11 +7,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnWhatToEat;
-    Button btnShowMenu;
+    Button btnShowAllMeals;
+    Button btnLogOut;
+    TextView tv_userInfo;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -24,27 +31,52 @@ public class MainActivity extends AppCompatActivity {
                                     /*Initializing Variables*/
 
 
-        btnWhatToEat = (Button)findViewById(R.id.btnWhatToEat);
-        btnShowMenu = (Button)findViewById(R.id.btnShowMenu);
+        btnWhatToEat = findViewById(R.id.btnWhatToEat);
+        btnShowAllMeals = findViewById(R.id.btnShowAllMeals);
+        btnLogOut = findViewById(R.id.btnLogOut);
+        mAuth = FirebaseAuth.getInstance();
+        tv_userInfo = findViewById(R.id.tv_userInfo);
+        Intent getIntent = getIntent();
+        tv_userInfo.setText("Logged in as: "+getIntent.getStringExtra("userInfo"));
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        btnWhatToEat.setOnClickListener(new View.OnClickListener() {
+        btnWhatToEat.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        btnShowMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,Meals.class);
-//                intent.putExtra();
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(MainActivity.this, WhatToEatActivity.class);
                 startActivity(intent);
             }
         });
+
+        btnShowAllMeals.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Meals.class);
+                startActivity(intent);
+            }
+        });
+
+        btnLogOut.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mAuth.signOut();
+                toastMessage("Logging Out...");
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void toastMessage(String message)
+    {
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 }
