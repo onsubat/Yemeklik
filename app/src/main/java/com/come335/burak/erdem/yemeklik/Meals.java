@@ -4,6 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -11,16 +19,23 @@ import java.util.ArrayList;
  * Created by Erdem on 21-Apr-18.
  */
 
-public class Meals extends AppCompatActivity{
-
-    private ArrayList<Integer> images = new ArrayList<Integer>();
-    private ArrayList<String>  names = new ArrayList<String>();
+public class Meals extends AppCompatActivity
+{
+    private  ArrayList<Integer> ids = new ArrayList<>();
+    private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<String> contents = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
+    private ArrayList<Float> ratings = new ArrayList<>();
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth mAuth;
+    private DatabaseReference myRef;
 
     RecyclerView rView;
     RecyclerView.Adapter rAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meals_recyclerview);
 
@@ -28,27 +43,64 @@ public class Meals extends AppCompatActivity{
 ////////////////////////////////////////////////////////////////////////////////////////////////////
                                     /*Initializing Variables*/
 
-        images.add(R.drawable.iskender);
-        images.add(R.drawable.manti);
-        images.add(R.drawable.iskender);
-        images.add(R.drawable.manti);
-
-        names.add("iskender");
-        names.add("manti");
-        names.add("iskender");
-        names.add("manti");
-
-
         rView = findViewById(R.id.rview);
-        rAdapter = new RecyclerViewAdapter(this, images, names);
-        rView.setAdapter(rAdapter);
-        rView.setLayoutManager(new LinearLayoutManager(this));
-        rView.setHasFixedSize(true);
 
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+        myRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                showData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+
+            }
+        });
+
+    }
+
+    private void showData(DataSnapshot dataSnapshot)
+    {
+        long maxCount = dataSnapshot.child("meal").getChildrenCount();
+
+        for(int i = 0; i < maxCount; i++)
+        {
+            for (DataSnapshot ds : dataSnapshot.getChildren())
+            {
+                ids.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getId());
+                names.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getName());
+                contents.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getContent());
+                images.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getPhotoURL());
+                ratings.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getRating());
+            }
+        }
+
+        InitiateRecyclerView();
+    }
+
+    private void InitiateRecyclerView()
+    {
+        rView.setLayoutManager(new LinearLayoutManager(this));
+        rView.setHasFixedSize(true);
+        rAdapter = new RecyclerViewAdapter(this, ids, names, contents, images, ratings);
+        rView.setAdapter(rAdapter);
+    }
+
+
+    private void toastMessage(String message)
+    {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
 }

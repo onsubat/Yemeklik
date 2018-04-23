@@ -26,13 +26,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<String> mImageNames = new ArrayList<>();
-    private ArrayList<Integer> mImages = new ArrayList<>();
+    private  ArrayList<Integer> mIds = new ArrayList<>();
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mContent = new ArrayList<>();
+    private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<Float> mRatings = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<Integer> images , ArrayList<String> imageNames) {
+    public RecyclerViewAdapter(Context context , ArrayList<Integer> ids, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<Float> ratings)
+    {
+        mIds = ids;
+        mNames = names;
+        mContent = content;
         mImages = images;
-        mImageNames = imageNames;
+        mRatings = ratings;
         mContext = context;
     }
 
@@ -52,16 +59,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load(mImages.get(position))
                 .into(holder.image);
 
-        holder.txtMealName.setText(mImageNames.get(position));
+        holder.txtMealName.setText(mNames.get(position));
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
+                Log.d(TAG, "onClick: clicked on: " + mNames.get(position));
 
                 Intent intent = new Intent(mContext, DetailsActivity.class);        ///////////////INTENT///////////////
-                intent.putExtra("image", mImages.get(position));
-                intent.putExtra("name", mImageNames.get(position));
+                intent.putExtra("id", mIds.get(position));
+
                 mContext.startActivity(intent);
             }
         });
@@ -69,14 +76,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mImageNames.size();
+        return mNames.size();
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView image;
         TextView txtMealName;
+        ImageView image;
         RelativeLayout parentLayout;
 
         public ViewHolder(View itemView) {

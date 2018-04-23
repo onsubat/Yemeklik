@@ -6,9 +6,18 @@
     android:background="@drawable/gradientbackground"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/tempImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="invisible" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rview"></android.support.v7.widget.RecyclerView>
+
+
+
 
 </LinearLayout>
