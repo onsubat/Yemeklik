@@ -12,6 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Erdem on 21-Apr-18.
@@ -19,29 +24,58 @@ import com.bumptech.glide.Glide;
 
 public class DetailsActivity extends AppCompatActivity {
 
+    int mealId;
     String mealName;
     String mealContent;
     String mealImage;
     float ratingPointsToSend;
     float mealRating;
+    float mealTotalPoints;
+    int mealTimesRated;
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     Button btnRate;
     Button btnShare;
     RatingBar ratingBar;
+    float ratingBarValue;
     RelativeLayout ratingLayout;
-    Button btnSubmit;
+    Button btnSubmitRate;
+
+    TextView nameT;
+    TextView contentT;
+    ImageView imageV;
+    TextView ratingT;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_details);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /*Initializing Variables*/
 
         btnRate = findViewById(R.id.btnRate);
         btnShare = findViewById(R.id.btnShare);
         ratingBar = findViewById(R.id.ratingBar);
         ratingLayout = findViewById(R.id.ratingLayout);
         ratingLayout.setVisibility(View.GONE);
-        btnSubmit = findViewById(R.id.btnSubmit);
+        btnSubmitRate = findViewById(R.id.btnSubmit);
+
+        ratingT = findViewById(R.id.tv_Rating);
+        nameT = findViewById(R.id.tv_name);
+        contentT = findViewById(R.id.tv_content);
+        imageV = findViewById(R.id.iv_meal);
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
         btnRate.setOnClickListener(new View.OnClickListener()
         {
@@ -54,7 +88,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        btnSubmit.setOnClickListener(new View.OnClickListener()
+        btnSubmitRate.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -62,19 +96,49 @@ public class DetailsActivity extends AppCompatActivity {
                 ratingLayout.setVisibility(View.GONE);
                 btnRate.setClickable(true);
                 btnShare.setClickable(true);
+                myRef.child("meal").child(String.valueOf(mealId)).child("totalPoints").setValue(mealTotalPoints + ratingBarValue);
+                myRef.child("meal").child(String.valueOf(mealId)).child("timesRated").setValue(mealTimesRated + 1);
+            }
+        });
+
+        myRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    SingleMeal tempMeal = new SingleMeal();
+                    tempMeal.setTimesRated(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated());
+                    tempMeal.setTotalPoints(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints());
+
+                    mealTimesRated = tempMeal.getTimesRated();
+                    mealTotalPoints = tempMeal.getTotalPoints();
+                    mealRating = tempMeal.calculateRating(mealTotalPoints, mealTimesRated);
+
+                    myRef.child("meal").child(String.valueOf(mealId)).child("rating").setValue(mealRating);
+
+                    ratingT.setText(String.valueOf(mealRating));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+
             }
         });
 
         getIncomingIntent();
         listenerForRatingBar();
-    }
+    }///////////////////////////////OnCreateEnds////////////////////////////////////////////////////
 
     private void getIncomingIntent()
     {
         mealName = getIntent().getStringExtra("name");
         mealContent = getIntent().getStringExtra("content");
         mealImage = getIntent().getStringExtra("image");
-        mealRating = getIntent().getIntExtra("rating",0);
+        mealId = getIntent().getIntExtra("id", 0);
 
         setDetails();
 
@@ -82,17 +146,11 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void setDetails()
     {
-        TextView nameT = findViewById(R.id.tv_name);
         nameT.setText(mealName);
 
-        TextView contentT = findViewById(R.id.tv_content);
         contentT.setText(mealContent);
 
-        ImageView imageV = findViewById(R.id.iv_meal);
         Glide.with(this).asBitmap().load(mealImage).into(imageV);
-
-        TextView ratingT = findViewById(R.id.tv_Rating);
-        ratingT.setText("Rating: " + String.valueOf(mealRating));
     }
 
     public void listenerForRatingBar()
@@ -102,7 +160,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b)
             {
-                ratingPointsToSend = v;
+                ratingBarValue = v;
             }
         });
     }

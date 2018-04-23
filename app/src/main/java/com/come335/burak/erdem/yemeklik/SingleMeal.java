@@ -6,11 +6,12 @@ package com.come335.burak.erdem.yemeklik;
 
 public class SingleMeal
 {
+    int id;
     String name;
     String content;
     String photoURL;
-    float points;
-    float timesRated;
+    float totalPoints;
+    int timesRated;
     float rating;
 
     public SingleMeal()
@@ -18,11 +19,14 @@ public class SingleMeal
 
     }
 
-    public SingleMeal(String _name, String _content, String _photoURL)
+    public int getId()
     {
-        name = _name;
-        content  =_content;
-        photoURL = _photoURL;
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getName()
@@ -57,16 +61,48 @@ public class SingleMeal
 
     public void addPoints(int _points)
     {
-        points += _points;
+        totalPoints += _points;
     }
 
-    public void calculateRating()
+    public float getTotalPoints()
     {
-        rating = points/timesRated;
+        return totalPoints;
+    }
+
+    public void setTotalPoints(float totalPoints)
+    {
+        this.totalPoints = totalPoints;
+    }
+
+    public float calculateRating(float _totalPoints, int _timesRated)
+    {
+        if(_timesRated == 0)
+            return 0;
+        else
+        {
+            rating = _totalPoints / _timesRated;
+            return rating;
+
+        }
     }
 
     public float getRating()
     {
         return rating;
+    }
+
+    public void setRating(float rating)
+    {
+        this.rating = rating;
+    }
+
+    public int getTimesRated()
+    {
+        return timesRated;
+    }
+
+    public void setTimesRated(int timesRated)
+    {
+        this.timesRated = timesRated;
     }
 }

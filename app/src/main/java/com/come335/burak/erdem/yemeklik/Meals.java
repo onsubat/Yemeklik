@@ -19,11 +19,12 @@ import java.util.ArrayList;
  * Created by Erdem on 21-Apr-18.
  */
 
-public class Meals extends AppCompatActivity{
-
-    private ArrayList<String> images = new ArrayList<>();
+public class Meals extends AppCompatActivity
+{
+    private  ArrayList<Integer> ids = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<String> contents = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
     private ArrayList<Float> ratings = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -77,6 +78,7 @@ public class Meals extends AppCompatActivity{
         {
             for (DataSnapshot ds : dataSnapshot.getChildren())
             {
+                ids.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getId());
                 names.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getName());
                 contents.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getContent());
                 images.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getPhotoURL());
@@ -85,14 +87,13 @@ public class Meals extends AppCompatActivity{
         }
 
         InitiateRecyclerView();
-
     }
 
     private void InitiateRecyclerView()
     {
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);
-        rAdapter = new RecyclerViewAdapter(this,names, contents, images, ratings);
+        rAdapter = new RecyclerViewAdapter(this, ids, names, contents, images, ratings);
         rView.setAdapter(rAdapter);
     }
 
