@@ -74,20 +74,19 @@ public class HistoryActivity extends AppCompatActivity
     {
         FirebaseUser user = mAuth.getCurrentUser();
 
-        long maxCount = dataSnapshot.child(user.getUid()).child("history").getChildrenCount();
+        long maxCount = dataSnapshot.child("users").child(user.getUid()).child("history").getChildrenCount();
 
         for(int i = 0; i < maxCount; i++)
         {
             for (DataSnapshot ds : dataSnapshot.getChildren())
             {
                 UserHistory tempUser = new UserHistory();
-                tempUser.setId(ds.child(String.valueOf(i)).getValue(UserHistory.class).getId());
+                tempUser.setMealId(ds.child("users").child(user.getUid()).child("history").child(String.valueOf(i)).getValue(UserHistory.class).getMealId());
 
-                ids.add(ds.child(String.valueOf(tempUser.getId())).getValue(SingleMeal.class).getId());
-                names.add(ds.child(String.valueOf(tempUser.getId())).getValue(SingleMeal.class).getName());
-                contents.add(ds.child(String.valueOf(tempUser.getId())).getValue(SingleMeal.class).getContent());
-                images.add(ds.child(String.valueOf(tempUser.getId())).getValue(SingleMeal.class).getPhotoURL());
-                ratings.add(ds.child(String.valueOf(tempUser.getId())).getValue(SingleMeal.class).getRating());
+                ids.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getId());
+                names.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getName());
+                contents.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getContent());
+                images.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getPhotoURL());
             }
         }
 

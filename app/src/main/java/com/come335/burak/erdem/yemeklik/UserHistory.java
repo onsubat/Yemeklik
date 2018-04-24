@@ -6,16 +6,27 @@ package com.come335.burak.erdem.yemeklik;
 
 public class UserHistory
 {
-    int id;
+    int mealId;
+    String date;
 
-    public int getId()
+    public int getMealId()
     {
-        return id;
+        return mealId;
     }
 
-    public void setId(int id)
+    public void setMealId(int mealId)
     {
-        this.id = id;
+        this.mealId = mealId;
+    }
+
+    public String getDate()
+    {
+        return date;
+    }
+
+    public void setDate(String date)
+    {
+        this.date = date;
     }
 
     public UserHistory()

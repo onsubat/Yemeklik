@@ -72,17 +72,17 @@ public class Meals extends AppCompatActivity
 
     private void showData(DataSnapshot dataSnapshot)
     {
-        long maxCount = dataSnapshot.child("meal").getChildrenCount();
+        long maxCount = dataSnapshot.child("meals").getChildrenCount();
 
         for(int i = 0; i < maxCount; i++)
         {
             for (DataSnapshot ds : dataSnapshot.getChildren())
             {
-                ids.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getId());
-                names.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getName());
-                contents.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getContent());
-                images.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getPhotoURL());
-                ratings.add(ds.child(String.valueOf(i)).getValue(SingleMeal.class).getRating());
+                ids.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getId());
+                names.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getName());
+                contents.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getContent());
+                images.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getPhotoURL());
+                ratings.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getRating());
             }
         }
 

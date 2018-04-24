@@ -30,16 +30,16 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mContent = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<Float> mRatings = new ArrayList<>();
+    private ArrayList<String> mDates = new ArrayList<>();
     private Context mContext;
 
-    public Recycler2(Context context , ArrayList<Integer> ids, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<Float> ratings)
+    public Recycler2(Context context , ArrayList<Integer> ids, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<String> dates)
     {
         mIds = ids;
         mNames = names;
         mContent = content;
         mImages = images;
-        mRatings = ratings;
+        mDates = dates;
         mContext = context;
     }
 
@@ -60,18 +60,6 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
                 .into(holder.image);
 
         holder.txtMealName.setText(mNames.get(position));
-
-        holder.parentLayout2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on: " + mNames.get(position));
-
-                Intent intent = new Intent(mContext, HistoryActivity.class);        ///////////////INTENT///////////////
-                intent.putExtra("id", mIds.get(position));
-
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -84,6 +72,7 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
 
         TextView txtMealName;
         ImageView image;
+        TextView date;
         RelativeLayout parentLayout2;
 
         public ViewHolder(View itemView) {
