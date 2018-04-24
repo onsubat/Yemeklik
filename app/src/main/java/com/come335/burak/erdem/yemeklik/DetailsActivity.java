@@ -32,7 +32,7 @@ public class DetailsActivity extends AppCompatActivity {
     float mealRating;
     float mealTotalPoints;
     int mealTimesRated;
-    boolean boolSetDetails;
+    boolean boolSetDetailsOnce;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
@@ -76,7 +76,7 @@ public class DetailsActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference("meals");//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
 
-        boolSetDetails = true;
+        boolSetDetailsOnce = true;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,23 +128,26 @@ public class DetailsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 SingleMeal tempMeal = new SingleMeal();
-                tempMeal.setName(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
-                tempMeal.setContent(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
-                tempMeal.setPhotoURL(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
-                tempMeal.setTimesRated(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated());
-                tempMeal.setTotalPoints(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints());
 
-                mealName = tempMeal.getName();
-                mealContent = tempMeal.getContent();
-                mealImage = tempMeal.getPhotoURL();
-                mealTimesRated = tempMeal.getTimesRated();
-                mealTotalPoints = tempMeal.getTotalPoints();
+                if(boolSetDetailsOnce == true)
+                {
+                    tempMeal.setName(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
+                    tempMeal.setContent(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
+                    tempMeal.setPhotoURL(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
+                    mealName = tempMeal.getName();
+                    mealContent = tempMeal.getContent();
+                    mealImage = tempMeal.getPhotoURL();
+                }
+
+                mealTimesRated = dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated();
+                mealTotalPoints = dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints();
+
                 mealRating = tempMeal.calculateRating(mealTotalPoints, mealTimesRated);
 
                 myRef.child(String.valueOf(mealId)).child("rating").setValue(mealRating);
                 ratingT.setText(String.valueOf(mealRating));
 
-                setDetails(boolSetDetails);
+                setDetails(boolSetDetailsOnce);
             }
 
             @Override
@@ -169,7 +172,7 @@ public class DetailsActivity extends AppCompatActivity {
     {
         if(_bool == true)
         {
-            boolSetDetails = false;
+            boolSetDetailsOnce = false;
 
             nameT.setText(mealName);
 

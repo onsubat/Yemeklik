@@ -31,6 +31,7 @@ public class HistoryActivity extends AppCompatActivity
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
+    FirebaseUser user;
 
     RecyclerView rView;
     RecyclerView.Adapter rAdapter;
@@ -45,10 +46,11 @@ public class HistoryActivity extends AppCompatActivity
                                     /*Initializing Variables*/
 
         rView = findViewById(R.id.rview2);
+        user = mAuth.getCurrentUser();
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
+        myRef = mFirebaseDatabase.getReference(user.getUid());
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,28 +74,28 @@ public class HistoryActivity extends AppCompatActivity
 
     private void showData(DataSnapshot dataSnapshot)
     {
-        FirebaseUser user = mAuth.getCurrentUser();
 
-        long maxCount = dataSnapshot.child("users").child(user.getUid()).child("history").getChildrenCount();
+        long maxCount = dataSnapshot.child(user.getUid()).child("history").getChildrenCount();
 
-        for(int i = 0; i < maxCount; i++)
-        {
-            for (DataSnapshot ds : dataSnapshot.getChildren())
-            {
-                UserHistory tempUser = new UserHistory();
-                tempUser.setMealId(ds.child("users").child(user.getUid()).child("history").child(String.valueOf(i)).getValue(UserHistory.class).getMealId());
+        toastMessage(String.valueOf(dataSnapshot.getChildrenCount()));
+//        for(int i = 0; i < maxCount; i++)
+//        {
+//            for (DataSnapshot ds : dataSnapshot.getChildren())
+//            {
+//                UserHistory tempUser = new UserHistory();
+//                tempUser.setMealId(ds.child("users").child(user.getUid()).child("history").child(String.valueOf(i)).getValue(UserHistory.class).getMealId());
+//
+//                ids.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getId());
+//                names.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getName());
+//                contents.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getContent());
+//                images.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getPhotoURL());
+//            }
+//        }
 
-                ids.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getId());
-                names.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getName());
-                contents.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getContent());
-                images.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getPhotoURL());
-            }
-        }
-
-        InitiateRecyclerView();
+        RunRecyclerView();
     }
 
-    private void InitiateRecyclerView()
+    private void RunRecyclerView()
     {
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);

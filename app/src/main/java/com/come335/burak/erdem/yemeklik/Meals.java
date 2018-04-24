@@ -44,6 +44,7 @@ public class Meals extends AppCompatActivity
                                     /*Initializing Variables*/
 
         rView = findViewById(R.id.rview);
+        RunRecyclerView();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference("meals");//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
@@ -57,19 +58,21 @@ public class Meals extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                toastMessage(String.valueOf(dataSnapshot.child("1").getValue(SingleMeal.class).getName()));
-
                 long maxCount = dataSnapshot.getChildrenCount();
-                for(int i = 0; i < maxCount; i++)
-                {
-                    ids.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getId());
-                    names.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getName());
-                    contents.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getContent());
-                    images.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getPhotoURL());
-                    ratings.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getRating());
-                }
 
-                InitiateRecyclerView();
+                    for (DataSnapshot ds : dataSnapshot.getChildren())
+                    {
+                        if(ids.size() < maxCount)
+                        {
+                            ids.add(ds.getValue(SingleMeal.class).getId());
+                            names.add(ds.getValue(SingleMeal.class).getName());
+                            contents.add(ds.getValue(SingleMeal.class).getContent());
+                            images.add(ds.getValue(SingleMeal.class).getPhotoURL());
+                            ratings.add(ds.getValue(SingleMeal.class).getRating());
+                        }
+                    }
+
+                RunRecyclerView();
             }
 
             @Override
@@ -81,7 +84,7 @@ public class Meals extends AppCompatActivity
 
     }
 
-    private void InitiateRecyclerView()
+    private void RunRecyclerView()
     {
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);
