@@ -26,16 +26,14 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private  ArrayList<Integer> mIds = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mContent = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
     private ArrayList<String> mDates = new ArrayList<>();
     private Context mContext;
 
-    public Recycler2(Context context , ArrayList<Integer> ids, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<String> dates)
+    public Recycler2(Context context, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<String> dates)
     {
-        mIds = ids;
         mNames = names;
         mContent = content;
         mImages = images;
@@ -54,12 +52,14 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
+        holder.tvMealName.setText(mNames.get(position));
+
         Glide.with(mContext)
                 .asBitmap()
                 .load(mImages.get(position))
-                .into(holder.image);
+                .into(holder.ivImage);
 
-        holder.txtMealName.setText(mNames.get(position));
+        holder.tvdate.setText(mDates.get(position));
     }
 
     @Override
@@ -70,16 +70,19 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView txtMealName;
-        ImageView image;
-        TextView date;
-        RelativeLayout parentLayout2;
+        TextView tvMealName;
+        TextView tvContent;
+        ImageView ivImage;
+        TextView tvdate;
+        RelativeLayout parentLayout_history;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.iview2);
-            txtMealName = itemView.findViewById(R.id.name2);
-            parentLayout2 = itemView.findViewById(R.id.parent_layout2);
+            tvMealName = itemView.findViewById(R.id.name_history);
+            tvContent = itemView.findViewById(R.id.content_history);
+            ivImage = itemView.findViewById(R.id.iview_history);
+            tvdate = itemView.findViewById(R.id.date_history);
+            parentLayout_history = itemView.findViewById(R.id.parent_layout_history);
         }
     }
 }

@@ -34,8 +34,8 @@ public class DetailsActivity extends AppCompatActivity {
     int mealTimesRated;
     boolean boolSetDetails;
 
-    FirebaseDatabase database;
-    DatabaseReference myRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
 
     Button btnRate;
     Button btnMap;
@@ -73,8 +73,9 @@ public class DetailsActivity extends AppCompatActivity {
         contentT = findViewById(R.id.tv_content);
         imageV = findViewById(R.id.iv_meal);
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference("meals");//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
+
         boolSetDetails = true;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,8 +101,9 @@ public class DetailsActivity extends AppCompatActivity {
                 btnRate.setClickable(true);
                 btnShare.setClickable(true);
                 btnMap.setClickable(true);
-                myRef.child("meal").child(String.valueOf(mealId)).child("totalPoints").setValue(mealTotalPoints + ratingBarValue);
-                myRef.child("meal").child(String.valueOf(mealId)).child("timesRated").setValue(mealTimesRated + 1);
+
+                myRef.child(String.valueOf(mealId)).child("totalPoints").setValue(mealTotalPoints + ratingBarValue);
+                myRef.child(String.valueOf(mealId)).child("timesRated").setValue(mealTimesRated + 1);
             }
         });
 
@@ -125,27 +127,24 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                for (DataSnapshot ds : dataSnapshot.getChildren())
-                {
-                    SingleMeal tempMeal = new SingleMeal();
-                    tempMeal.setName(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
-                    tempMeal.setContent(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
-                    tempMeal.setPhotoURL(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
-                    tempMeal.setTimesRated(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated());
-                    tempMeal.setTotalPoints(ds.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints());
+                SingleMeal tempMeal = new SingleMeal();
+                tempMeal.setName(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
+                tempMeal.setContent(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
+                tempMeal.setPhotoURL(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
+                tempMeal.setTimesRated(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated());
+                tempMeal.setTotalPoints(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints());
 
-                    mealName = tempMeal.getName();
-                    mealContent = tempMeal.getContent();
-                    mealImage = tempMeal.getPhotoURL();
-                    mealTimesRated = tempMeal.getTimesRated();
-                    mealTotalPoints = tempMeal.getTotalPoints();
-                    mealRating = tempMeal.calculateRating(mealTotalPoints, mealTimesRated);
+                mealName = tempMeal.getName();
+                mealContent = tempMeal.getContent();
+                mealImage = tempMeal.getPhotoURL();
+                mealTimesRated = tempMeal.getTimesRated();
+                mealTotalPoints = tempMeal.getTotalPoints();
+                mealRating = tempMeal.calculateRating(mealTotalPoints, mealTimesRated);
 
-                    myRef.child("meal").child(String.valueOf(mealId)).child("rating").setValue(mealRating);
-                    ratingT.setText(String.valueOf(mealRating));
+                myRef.child(String.valueOf(mealId)).child("rating").setValue(mealRating);
+                ratingT.setText(String.valueOf(mealRating));
 
-                    setDetails(boolSetDetails);
-                }
+                setDetails(boolSetDetails);
             }
 
             @Override

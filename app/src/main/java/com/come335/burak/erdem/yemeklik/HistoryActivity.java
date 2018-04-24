@@ -27,7 +27,7 @@ public class HistoryActivity extends AppCompatActivity
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<String> contents = new ArrayList<>();
     private ArrayList<String> images = new ArrayList<>();
-    private ArrayList<Float> ratings = new ArrayList<>();
+    private ArrayList<String> dates = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
@@ -39,7 +39,7 @@ public class HistoryActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.history_activity);
+        setContentView(R.layout.history_recyclerview);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
                                     /*Initializing Variables*/
@@ -97,7 +97,7 @@ public class HistoryActivity extends AppCompatActivity
     {
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);
-        rAdapter = new RecyclerViewAdapter(this, ids, names, contents, images, ratings);
+        rAdapter = new Recycler2(this, names, contents, images, dates);
         rView.setAdapter(rAdapter);
     }
 

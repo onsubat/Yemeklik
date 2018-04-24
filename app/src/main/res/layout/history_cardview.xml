@@ -7,7 +7,7 @@
     tools:context="com.come335.burak.erdem.yemeklik.Meals"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    android:id="@+id/parent_layout2">
+    android:id="@+id/parent_layout_history">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/iview2"
+                android:id="@+id/iview_history"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
@@ -30,29 +30,40 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
-                android:id="@+id/name2"
+                android:id="@+id/name_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:text="Text Name"
+                android:layout_toRightOf="@+id/iview_history"
+                android:text="Meal Name"
                 android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="?android:attr/colorForeground"
-                android:textSize="25sp"
+                android:textColor="#000000"
+                android:textSize="23sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/content2"
+                android:id="@+id/content_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:text="Text Name"
+                android:layout_below="@+id/name_history"
+                android:layout_toRightOf="@+id/iview_history"
+                android:text="Meal Content"
                 android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="?android:attr/colorForeground"
+                android:textColor="#626262"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/date_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:text="01/01/2018"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="#be989898"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:visibility="visible" />

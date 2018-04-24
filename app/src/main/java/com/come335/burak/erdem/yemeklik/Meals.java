@@ -26,8 +26,8 @@ public class Meals extends AppCompatActivity
     private ArrayList<String> contents = new ArrayList<>();
     private ArrayList<String> images = new ArrayList<>();
     private ArrayList<Float> ratings = new ArrayList<>();
+
     private FirebaseDatabase mFirebaseDatabase;
-    private FirebaseAuth mAuth;
     private DatabaseReference myRef;
 
     RecyclerView rView;
@@ -45,9 +45,8 @@ public class Meals extends AppCompatActivity
 
         rView = findViewById(R.id.rview);
 
-        mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
+        myRef = mFirebaseDatabase.getReference("meals");//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +57,19 @@ public class Meals extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                showData(dataSnapshot);
+                toastMessage(String.valueOf(dataSnapshot.child("1").getValue(SingleMeal.class).getName()));
+
+                long maxCount = dataSnapshot.getChildrenCount();
+                for(int i = 0; i < maxCount; i++)
+                {
+                    ids.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getId());
+                    names.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getName());
+                    contents.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getContent());
+                    images.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getPhotoURL());
+                    ratings.add(dataSnapshot.child(String.valueOf(i)).getValue(SingleMeal.class).getRating());
+                }
+
+                InitiateRecyclerView();
             }
 
             @Override
@@ -68,25 +79,6 @@ public class Meals extends AppCompatActivity
             }
         });
 
-    }
-
-    private void showData(DataSnapshot dataSnapshot)
-    {
-        long maxCount = dataSnapshot.child("meals").getChildrenCount();
-
-        for(int i = 0; i < maxCount; i++)
-        {
-            for (DataSnapshot ds : dataSnapshot.getChildren())
-            {
-                ids.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getId());
-                names.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getName());
-                contents.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getContent());
-                images.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getPhotoURL());
-                ratings.add(ds.child("meals").child(String.valueOf(i)).getValue(SingleMeal.class).getRating());
-            }
-        }
-
-        InitiateRecyclerView();
     }
 
     private void InitiateRecyclerView()
