@@ -116,7 +116,7 @@ public class WhatToEatActivity extends AppCompatActivity
                     else
                     {
                         //deprecated in API 26
-                        v.vibrate(500);
+                        v.vibrate(300);
                     }
 
                     Intent intent = new Intent(WhatToEatActivity.this, DetailsActivity.class);

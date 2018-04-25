@@ -6,6 +6,16 @@
     android:background="@drawable/gradientbackground"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textViewHistory"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:fontFamily="@font/aclonica"
+        android:text="History"
+        android:textAlignment="center"
+        android:background="@drawable/button3"
+        android:textSize="25sp" />
+
     <ImageView
         android:id="@+id/tempImage"
         android:layout_width="50dp"

@@ -7,59 +7,55 @@
     android:background="@drawable/gradientbackground"
     tools:context="com.come335.burak.erdem.yemeklik.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rview"></android.support.v7.widget.RecyclerView>
-    
     <Button
         android:id="@+id/btnWhatToEat"
-        style="@style/Widget.AppCompat.Button"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="79dp"
-        android:background="#ffff66"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/aclonica"
-        android:text="  What to Eat?  " />
-
-    <Button
-        android:id="@+id/btnHistory"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
-        android:background="#ffff66"
-        android:fontFamily="@font/aclonica"
-        android:text="History" />
+        android:text="  What to Eat?  "
+        android:background="@drawable/button5"
+        android:textSize="20dp"/>
 
     <Button
         android:id="@+id/btnShowAllMeals"
+        style="@android:style/Widget.Button"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:background="#FF5252"
+        android:layout_height="120dp"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"
         android:fontFamily="@font/aclonica"
         android:text="Show All Meals"
-        android:layout_above="@+id/btnLogOut"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_centerVertical="true"
+        android:textSize="22dp"/>
+
+    <Button
+        android:id="@+id/btnHistory"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button3"
+        android:fontFamily="@font/aclonica"
+        android:text="History"
+        android:layout_above="@id/btnLogOut"
+        android:layout_marginBottom="20dp"
+        android:textSize="17dp"/>
 
     <Button
         android:id="@+id/btnLogOut"
-        android:layout_width="match_parent"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="#720101"
+        android:background="@drawable/button2"
         android:text="Log Out"
+        android:fontFamily="@font/aclonica"
         android:layout_above="@+id/tv_userInfo" />
 
     <TextView

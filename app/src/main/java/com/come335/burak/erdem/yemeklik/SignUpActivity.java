@@ -44,7 +44,7 @@ public class SignUpActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_in);
+        setContentView(R.layout.sign_up);
 
         mAuth = FirebaseAuth.getInstance();
         btnSignIn = findViewById(R.id.btnSignUp);

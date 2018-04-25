@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,19 +8,6 @@
     android:background="@drawable/gradientbackground"
 
     tools:context="com.come335.burak.erdem.yemeklik.LoginActivity">
-
-    <ScrollView
-        android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/email_login_form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
 
             <EditText
                 android:id="@+id/email"
@@ -41,7 +28,7 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                />
+                android:layout_below="@id/email"/>
 
             <Button
                 android:id="@+id/btnLogIn"
@@ -54,34 +41,28 @@
                 android:background="#00AF05"
                 android:textColor="#ffffff"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:layout_below="@id/password"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="250dp"
-                android:layout_marginBottom="5dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Don't have an account? Sign up now!"
                     android:textColor="#000000"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:layout_above="@id/btnGoToSignUp"/>
 
                 <Button
-                    android:id="@+id/btnGoToSignIn"
+                    android:id="@+id/btnGoToSignUp"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#3366ff"
                     android:text="Sign Up"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginTop="20dp"/>
-            </RelativeLayout>
-
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:layout_alignParentBottom="true"/>
+</RelativeLayout>
