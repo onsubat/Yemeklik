@@ -13,11 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Erdem on 21-Apr-18.
@@ -34,8 +40,12 @@ public class DetailsActivity extends AppCompatActivity {
     int mealTimesRated;
     boolean boolSetDetailsOnce;
 
+    float historyCount;
+
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     Button btnRate;
     Button btnMap;
@@ -73,8 +83,11 @@ public class DetailsActivity extends AppCompatActivity {
         contentT = findViewById(R.id.tv_content);
         imageV = findViewById(R.id.iv_meal);
 
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference("meals");//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
+        myRef = mFirebaseDatabase.getReference();//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
 
         boolSetDetailsOnce = true;
 
@@ -102,8 +115,16 @@ public class DetailsActivity extends AppCompatActivity {
                 btnShare.setClickable(true);
                 btnMap.setClickable(true);
 
-                myRef.child(String.valueOf(mealId)).child("totalPoints").setValue(mealTotalPoints + ratingBarValue);
-                myRef.child(String.valueOf(mealId)).child("timesRated").setValue(mealTimesRated + 1);
+                myRef.child("meals").child(String.valueOf(mealId)).child("totalPoints").setValue(mealTotalPoints + ratingBarValue);
+                myRef.child("meals").child(String.valueOf(mealId)).child("timesRated").setValue(mealTimesRated + 1);
+
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = df.format(c.getTime());
+
+                myRef.child("users").child(user.getUid()).child("history").child(String.valueOf((int)historyCount)).child("date").setValue(String.valueOf(formattedDate));
+                myRef.child("users").child(user.getUid()).child("history").child(String.valueOf((int)historyCount)).child("mealId").setValue(mealId);
+                myRef.child("users").child(user.getUid()).child("history").child(String.valueOf((int)historyCount)).child("givenRate").setValue(ratingBarValue);
             }
         });
 
@@ -127,24 +148,26 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
+                historyCount = dataSnapshot.child("users").child(user.getUid()).child("history").getChildrenCount();
+
                 SingleMeal tempMeal = new SingleMeal();
 
                 if(boolSetDetailsOnce == true)
                 {
-                    tempMeal.setName(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
-                    tempMeal.setContent(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
-                    tempMeal.setPhotoURL(dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
+                    tempMeal.setName(dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
+                    tempMeal.setContent(dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
+                    tempMeal.setPhotoURL(dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
                     mealName = tempMeal.getName();
                     mealContent = tempMeal.getContent();
                     mealImage = tempMeal.getPhotoURL();
                 }
 
-                mealTimesRated = dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated();
-                mealTotalPoints = dataSnapshot.child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints();
+                mealTimesRated = dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated();
+                mealTotalPoints = dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints();
 
                 mealRating = tempMeal.calculateRating(mealTotalPoints, mealTimesRated);
 
-                myRef.child(String.valueOf(mealId)).child("rating").setValue(mealRating);
+                myRef.child("meals").child(String.valueOf(mealId)).child("rating").setValue(mealRating);
                 ratingT.setText(String.valueOf(mealRating));
 
                 setDetails(boolSetDetailsOnce);

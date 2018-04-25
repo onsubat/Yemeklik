@@ -41,6 +41,12 @@ public class WhatToEatActivity extends AppCompatActivity
 
     TextView tv_whatToEat;
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        tv_whatToEat.setText("Please go back");
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -66,7 +72,7 @@ public class WhatToEatActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                maxCount = dataSnapshot.child("meal").getChildrenCount();
+                maxCount = dataSnapshot.child("meals").getChildrenCount();
             }
 
             @Override
@@ -91,12 +97,11 @@ public class WhatToEatActivity extends AppCompatActivity
             float delta = acelVal - acelLast;
             shake = shake * 0.9f + delta;
 
-            if(shake > 12)
+            if(shake > 5)
             {
                 if(shakeBool == true)
                 {
                     shakeBool = false;
-                    tv_whatToEat.setText("Please go back");
                     Intent intent = new Intent(WhatToEatActivity.this, DetailsActivity.class);
 
                     Random rand = new Random();

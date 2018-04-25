@@ -27,17 +27,19 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mContent = new ArrayList<>();
+    private ArrayList<String> mContents = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
     private ArrayList<String> mDates = new ArrayList<>();
+    private ArrayList<Integer> mGivenRates = new ArrayList<>();
     private Context mContext;
 
-    public Recycler2(Context context, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<String> dates)
+    public Recycler2(Context context, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<String> dates, ArrayList<Integer> givenRates)
     {
         mNames = names;
-        mContent = content;
+        mContents = content;
         mImages = images;
         mDates = dates;
+        mGivenRates = givenRates;
         mContext = context;
     }
 
@@ -54,12 +56,15 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
 
         holder.tvMealName.setText(mNames.get(position));
 
+        holder.tvContent.setText(mContents.get(position));
+
         Glide.with(mContext)
                 .asBitmap()
                 .load(mImages.get(position))
                 .into(holder.ivImage);
 
         holder.tvdate.setText(mDates.get(position));
+        holder.tvGivenRate.setText(String.valueOf(mGivenRates.get(position)));
     }
 
     @Override
@@ -74,6 +79,7 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
         TextView tvContent;
         ImageView ivImage;
         TextView tvdate;
+        TextView tvGivenRate;
         RelativeLayout parentLayout_history;
 
         public ViewHolder(View itemView) {
@@ -82,6 +88,7 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
             tvContent = itemView.findViewById(R.id.content_history);
             ivImage = itemView.findViewById(R.id.iview_history);
             tvdate = itemView.findViewById(R.id.date_history);
+            tvGivenRate = itemView.findViewById(R.id.givenRate_history);
             parentLayout_history = itemView.findViewById(R.id.parent_layout_history);
         }
     }

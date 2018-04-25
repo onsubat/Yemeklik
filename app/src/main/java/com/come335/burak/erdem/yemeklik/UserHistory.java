@@ -8,6 +8,22 @@ public class UserHistory
 {
     int mealId;
     String date;
+    int givenRate;
+
+    public int getGivenRate()
+    {
+        return givenRate;
+    }
+
+    public void setGivenRate(int givenRate)
+    {
+        this.givenRate = givenRate;
+    }
+
+    public UserHistory()
+    {
+
+    }
 
     public int getMealId()
     {
@@ -27,10 +43,5 @@ public class UserHistory
     public void setDate(String date)
     {
         this.date = date;
-    }
-
-    public UserHistory()
-    {
-
     }
 }

@@ -23,11 +23,12 @@ import java.util.ArrayList;
 
 public class HistoryActivity extends AppCompatActivity
 {
-    private ArrayList<Integer> ids = new ArrayList<>();
+    private ArrayList<Integer> ids = new ArrayList<>();// this ids is different from others. Storing the ids of eaten meals by user history, not meals from database.
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<String> contents = new ArrayList<>();
     private ArrayList<String> images = new ArrayList<>();
     private ArrayList<String> dates = new ArrayList<>();
+    private ArrayList<Integer> givenRates = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
@@ -46,11 +47,13 @@ public class HistoryActivity extends AppCompatActivity
                                     /*Initializing Variables*/
 
         rView = findViewById(R.id.rview2);
-        user = mAuth.getCurrentUser();
 
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference(user.getUid());
+        myRef = mFirebaseDatabase.getReference();
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +63,23 @@ public class HistoryActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                showData(dataSnapshot);
+                long maxCount = dataSnapshot.getChildrenCount();
+
+                for (DataSnapshot ds : dataSnapshot.child("users").child(user.getUid()).child("history").getChildren())
+                {
+                    ids.add(ds.getValue(UserHistory.class).getMealId());
+                    dates.add(ds.getValue(UserHistory.class).getDate());
+                    givenRates.add(ds.getValue(UserHistory.class).getGivenRate());
+                }
+
+                for(int id:ids)//Extracting data from "meals" with the id of the meal.
+                {
+                    names.add(dataSnapshot.child("meals").child(String.valueOf(id)).getValue(SingleMeal.class).getName());
+                    contents.add(dataSnapshot.child("meals").child(String.valueOf(id)).getValue(SingleMeal.class).getContent());
+                    images.add(dataSnapshot.child("meals").child(String.valueOf(id)).getValue(SingleMeal.class).getPhotoURL());
+                }
+
+                RunRecyclerView();
             }
 
             @Override
@@ -72,34 +91,11 @@ public class HistoryActivity extends AppCompatActivity
 
     }
 
-    private void showData(DataSnapshot dataSnapshot)
-    {
-
-        long maxCount = dataSnapshot.child(user.getUid()).child("history").getChildrenCount();
-
-        toastMessage(String.valueOf(dataSnapshot.getChildrenCount()));
-//        for(int i = 0; i < maxCount; i++)
-//        {
-//            for (DataSnapshot ds : dataSnapshot.getChildren())
-//            {
-//                UserHistory tempUser = new UserHistory();
-//                tempUser.setMealId(ds.child("users").child(user.getUid()).child("history").child(String.valueOf(i)).getValue(UserHistory.class).getMealId());
-//
-//                ids.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getId());
-//                names.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getName());
-//                contents.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getContent());
-//                images.add(ds.child("meals").child(String.valueOf(tempUser.getMealId())).getValue(SingleMeal.class).getPhotoURL());
-//            }
-//        }
-
-        RunRecyclerView();
-    }
-
     private void RunRecyclerView()
     {
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);
-        rAdapter = new Recycler2(this, names, contents, images, dates);
+        rAdapter = new Recycler2(this, names, contents, images, dates, givenRates);
         rView.setAdapter(rAdapter);
     }
 

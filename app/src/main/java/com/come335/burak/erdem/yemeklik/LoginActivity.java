@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Erdem on 22-Apr-18.
@@ -29,6 +31,9 @@ public class LoginActivity extends AppCompatActivity{
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText mEmail, mPassword;
     private static final String TAG = "MainActivity";
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +51,9 @@ public class LoginActivity extends AppCompatActivity{
         btnGoToSignIn = findViewById(R.id.btnGoToSignIn);
         mEmail =  findViewById(R.id.email);
         mPassword =  findViewById(R.id.password);
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +82,7 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(LoginActivity.this, SignInActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
@@ -90,7 +98,9 @@ public class LoginActivity extends AppCompatActivity{
         {
             // User is signed in
             toastMessage("Successfully logged in with: " + currentUser.getEmail());
-            TransferWithIntent(currentUser);
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
         }
         else
         {
@@ -116,8 +126,13 @@ public class LoginActivity extends AppCompatActivity{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            myRef.child("users").child(user.getUid()).child("email").setValue(user.getEmail());
+
                             toastMessage("Logged in.");
-                            TransferWithIntent(user);
+
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                         else
                         {
@@ -129,13 +144,5 @@ public class LoginActivity extends AppCompatActivity{
                         // ...
                     }
                 });
-    }
-
-    private void TransferWithIntent(FirebaseUser user)
-    {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        String userEmail = user.getEmail();
-        intent.putExtra("userInfo", userEmail.toString());
-        startActivity(intent);
     }
 }

@@ -64,7 +64,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Don't have an account? Sign in now!"
+                    android:text="Don't have an account? Sign up now!"
                     android:textColor="#000000"
                     android:textAlignment="center" />
 
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#3366ff"
-                    android:text="Sign In"
+                    android:text="Sign Up"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
                     android:layout_marginStart="10dp"

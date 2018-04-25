@@ -29,14 +29,16 @@ import com.google.firebase.database.ValueEventListener;
  * Created by Erdem on 22-Apr-18.
  */
 
-public class SignInActivity extends AppCompatActivity
+public class SignUpActivity extends AppCompatActivity
 {
 
     Button btnSignIn;
     EditText mEmail;
     EditText mPassword;
     private FirebaseAuth mAuth;
-    DatabaseReference ref;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -45,10 +47,12 @@ public class SignInActivity extends AppCompatActivity
         setContentView(R.layout.sign_in);
 
         mAuth = FirebaseAuth.getInstance();
-        btnSignIn = findViewById(R.id.btnSignIn);
+        btnSignIn = findViewById(R.id.btnSignUp);
         mEmail = findViewById(R.id.email);
         mPassword = findViewById(R.id.password);
-        ref = FirebaseDatabase.getInstance().getReference();
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
 
 
         btnSignIn.setOnClickListener(new View.OnClickListener()
@@ -94,7 +98,7 @@ public class SignInActivity extends AppCompatActivity
                     {
                         mAuth.createUserWithEmailAndPassword(email, password);
                         toastMessage("Account created successfully!");
-                        Intent intent = new Intent(SignInActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
                 }

@@ -11,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogOut;
     Button btnHistory;
     TextView tv_userInfo;
-    private FirebaseAuth mAuth;
 
+    private FirebaseAuth mAuth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +39,18 @@ public class MainActivity extends AppCompatActivity {
         btnWhatToEat = findViewById(R.id.btnWhatToEat);
         btnShowAllMeals = findViewById(R.id.btnShowAllMeals);
         btnLogOut = findViewById(R.id.btnLogOut);
-        mAuth = FirebaseAuth.getInstance();
         tv_userInfo = findViewById(R.id.tv_userInfo);
         Intent getIntent = getIntent();
-        tv_userInfo.setText("Logged in as: "+getIntent.getStringExtra("userInfo"));
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
+        tv_userInfo.setText("Logged in as: "+ user.getEmail());
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
         btnHistory.setOnClickListener(new View.OnClickListener()
