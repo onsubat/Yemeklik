@@ -6,7 +6,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -92,6 +95,9 @@ public class WhatToEatActivity extends AppCompatActivity
             float y = sensorEvent.values[1];
             float z = sensorEvent.values[2];
 
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+
             acelLast = acelVal;
             acelVal = (float) Math.sqrt((double) (x*x + y*y + z*z));
             float delta = acelVal - acelLast;
@@ -102,8 +108,18 @@ public class WhatToEatActivity extends AppCompatActivity
                 if(shakeBool == true)
                 {
                     shakeBool = false;
-                    Intent intent = new Intent(WhatToEatActivity.this, DetailsActivity.class);
 
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    {
+                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    }
+                    else
+                    {
+                        //deprecated in API 26
+                        v.vibrate(500);
+                    }
+
+                    Intent intent = new Intent(WhatToEatActivity.this, DetailsActivity.class);
                     Random rand = new Random();
                     randomMealId = rand.nextInt((int) maxCount);
                     intent.putExtra("id", randomMealId);
