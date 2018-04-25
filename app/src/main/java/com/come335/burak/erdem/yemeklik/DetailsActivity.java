@@ -168,7 +168,7 @@ public class DetailsActivity extends AppCompatActivity {
                 mealRating = tempMeal.calculateRating(mealTotalPoints, mealTimesRated);
 
                 myRef.child("meals").child(String.valueOf(mealId)).child("rating").setValue(mealRating);
-                ratingT.setText(String.valueOf(mealRating));
+                ratingT.setText(String.format("%.1f", mealRating));
 
                 setDetails(boolSetDetailsOnce);
             }
