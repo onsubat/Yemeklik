@@ -46,7 +46,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapActivity.this);
     }
-
+////////////////////////
     private void getLocationPermission()
     {
         Log.d(TAG, "getLocationPermission: getting location permissions");

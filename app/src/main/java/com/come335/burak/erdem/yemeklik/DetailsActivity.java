@@ -214,7 +214,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
     }
-
+//////////////////
     public boolean isServicesOK()
     {
         Log.d(TAG, "isServicesOK: Checking Google Services version");
