@@ -46,7 +46,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapActivity.this);
     }
-////////////////////////
+
     private void getLocationPermission()
     {
         Log.d(TAG, "getLocationPermission: getting location permissions");
@@ -60,11 +60,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             {
                 mLocationPermissionsGranted = true;
+                initMap();
             }
             else {
                 ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
             }
         }
+            else {
+                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            }
     }
 
     @Override
@@ -89,6 +93,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Log.d(TAG, "onRequestPermissionsResult: permission granted");
                     mLocationPermissionsGranted=true;
                     initMap();
+
                 }
             }
         }
