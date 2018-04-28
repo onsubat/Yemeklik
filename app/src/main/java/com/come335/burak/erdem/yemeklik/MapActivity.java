@@ -1,5 +1,6 @@
 package com.come335.burak.erdem.yemeklik;
 
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -70,13 +71,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
+
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         try{
             if(mLocationPermissionsGranted){
-
                 final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener (new  OnCompleteListener(){
+                location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
@@ -156,6 +157,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
     }
-
-
 }
