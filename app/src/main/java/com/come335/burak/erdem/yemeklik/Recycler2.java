@@ -31,16 +31,18 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
     private ArrayList<String> mImages = new ArrayList<>();
     private ArrayList<String> mDates = new ArrayList<>();
     private ArrayList<Integer> mGivenRates = new ArrayList<>();
+    private ArrayList<String> mRestaurantNames = new ArrayList<>();
     private Context mContext;
 
-    public Recycler2(Context context, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<String> dates, ArrayList<Integer> givenRates)
+    public Recycler2(Context context, ArrayList<String> names, ArrayList<String> content, ArrayList<String> images, ArrayList<String> dates, ArrayList<Integer> givenRates, ArrayList<String> restaurantNames)
     {
+        mContext = context;
         mNames = names;
         mContents = content;
         mImages = images;
         mDates = dates;
         mGivenRates = givenRates;
-        mContext = context;
+        mRestaurantNames = restaurantNames;
     }
 
     @Override
@@ -65,6 +67,7 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
 
         holder.tvdate.setText(mDates.get(position));
         holder.tvGivenRate.setText(String.valueOf(mGivenRates.get(position)));
+        holder.tvRestaurant.setText("Restaurant: " + mRestaurantNames.get(position));
     }
 
     @Override
@@ -80,6 +83,7 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
         ImageView ivImage;
         TextView tvdate;
         TextView tvGivenRate;
+        TextView tvRestaurant;
         RelativeLayout parentLayout_history;
 
         public ViewHolder(View itemView) {
@@ -89,6 +93,7 @@ public class Recycler2 extends RecyclerView.Adapter<Recycler2.ViewHolder>{
             ivImage = itemView.findViewById(R.id.iview_history);
             tvdate = itemView.findViewById(R.id.date_history);
             tvGivenRate = itemView.findViewById(R.id.givenRate_history);
+            tvRestaurant = itemView.findViewById(R.id.restaurant_history);
             parentLayout_history = itemView.findViewById(R.id.parent_layout_history);
         }
     }

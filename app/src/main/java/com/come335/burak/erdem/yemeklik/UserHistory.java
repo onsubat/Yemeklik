@@ -9,6 +9,23 @@ public class UserHistory
     int mealId;
     String date;
     int givenRate;
+    String restaurantName;
+    String selectedRestaurant;
+
+    public UserHistory()
+    {
+
+    }
+
+    public String getSelectedRestaurant()
+    {
+        return selectedRestaurant;
+    }
+
+    public void setSelectedRestaurant(String selectedRestaurant)
+    {
+        this.selectedRestaurant = selectedRestaurant;
+    }
 
     public int getGivenRate()
     {
@@ -18,11 +35,6 @@ public class UserHistory
     public void setGivenRate(int givenRate)
     {
         this.givenRate = givenRate;
-    }
-
-    public UserHistory()
-    {
-
     }
 
     public int getMealId()
@@ -43,5 +55,15 @@ public class UserHistory
     public void setDate(String date)
     {
         this.date = date;
+    }
+
+    public String getRestaurantName()
+    {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName)
+    {
+        this.restaurantName = restaurantName;
     }
 }

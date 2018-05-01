@@ -29,6 +29,7 @@ public class HistoryActivity extends AppCompatActivity
     private ArrayList<String> images = new ArrayList<>();
     private ArrayList<String> dates = new ArrayList<>();
     private ArrayList<Integer> givenRates = new ArrayList<>();
+    private ArrayList<String> restaurantNames = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
@@ -63,13 +64,13 @@ public class HistoryActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                long maxCount = dataSnapshot.getChildrenCount();
 
                 for (DataSnapshot ds : dataSnapshot.child("users").child(user.getUid()).child("history").getChildren())
                 {
                     ids.add(ds.getValue(UserHistory.class).getMealId());
                     dates.add(ds.getValue(UserHistory.class).getDate());
                     givenRates.add(ds.getValue(UserHistory.class).getGivenRate());
+                    restaurantNames.add(ds.getValue(UserHistory.class).getRestaurantName());
                 }
 
                 for(int id:ids)//Extracting data from "meals" with the id of the meal.
@@ -95,7 +96,7 @@ public class HistoryActivity extends AppCompatActivity
     {
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setHasFixedSize(true);
-        rAdapter = new Recycler2(this, names, contents, images, dates, givenRates);
+        rAdapter = new Recycler2(this, names, contents, images, dates, givenRates, restaurantNames);
         rView.setAdapter(rAdapter);
     }
 

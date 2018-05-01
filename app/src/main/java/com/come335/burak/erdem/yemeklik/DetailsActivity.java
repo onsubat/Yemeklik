@@ -34,7 +34,8 @@ import java.util.Date;
  * Created by Erdem on 21-Apr-18.
  */
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity
+{
 
     private ArrayList<String> restaurants = new ArrayList<>();
 
@@ -46,6 +47,8 @@ public class DetailsActivity extends AppCompatActivity {
     float mealTotalPoints;
     int mealTimesRated;
     boolean boolSetDetailsOnce;
+    String selectedRestaurant;
+    String nullString;
 
     float historyCount;
 
@@ -104,6 +107,8 @@ public class DetailsActivity extends AppCompatActivity {
         myRef = mFirebaseDatabase.getReference();//ONEMLI!!!DATABASE HİYERARŞİSİNDE İLK ADIMI BURADA ATIYORUZ
 
         boolSetDetailsOnce = true;
+        selectedRestaurant = "null";
+        nullString = "null";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,10 +117,16 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                ratingLayout.setVisibility(View.VISIBLE);
-                btnRate.setClickable(false);
-                btnShare.setClickable(false);
-                btnMap.setClickable(false);
+                if(!selectedRestaurant.equals("null"))
+                {
+                    ratingLayout.setVisibility(View.VISIBLE);
+                    btnRate.setClickable(false);
+                    btnShare.setClickable(false);
+                    btnMap.setClickable(false);
+                    toastMessage("Rating for: " + selectedRestaurant);
+                }
+                else
+                    toastMessage("Restaurant isn't selected");
             }
         });
 
@@ -139,6 +150,8 @@ public class DetailsActivity extends AppCompatActivity {
                 myRef.child("users").child(user.getUid()).child("history").child(String.valueOf((int)historyCount)).child("date").setValue(String.valueOf(formattedDate));
                 myRef.child("users").child(user.getUid()).child("history").child(String.valueOf((int)historyCount)).child("mealId").setValue(mealId);
                 myRef.child("users").child(user.getUid()).child("history").child(String.valueOf((int)historyCount)).child("givenRate").setValue(ratingBarValue);
+                myRef.child("users").child(user.getUid()).child("history").child(String.valueOf((int)historyCount)).child("restaurantName").setValue(selectedRestaurant);
+                myRef.child("users").child(user.getUid()).child("selectedRestaurant").setValue("null");
             }
         });
 
@@ -165,6 +178,7 @@ public class DetailsActivity extends AppCompatActivity {
                 historyCount = dataSnapshot.child("users").child(user.getUid()).child("history").getChildrenCount();
 
                 SingleMeal tempMeal = new SingleMeal();
+                UserHistory tempUser = new UserHistory();
 
                 if(boolSetDetailsOnce == true)
                 {
@@ -177,6 +191,9 @@ public class DetailsActivity extends AppCompatActivity {
                     mealImage = tempMeal.getPhotoURL();
                     restaurants = tempMeal.getRestaurants();
                 }
+
+                tempUser.setSelectedRestaurant(dataSnapshot.child("users").child(user.getUid()).getValue(UserHistory.class).getSelectedRestaurant());
+                selectedRestaurant = tempUser.getSelectedRestaurant().toString();
 
                 mealTimesRated = dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated();
                 mealTotalPoints = dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getTotalPoints();

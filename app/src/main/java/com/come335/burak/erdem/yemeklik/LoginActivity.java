@@ -128,6 +128,7 @@ public class LoginActivity extends AppCompatActivity{
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             myRef.child("users").child(user.getUid()).child("email").setValue(user.getEmail());
+                            myRef.child("users").child(user.getUid()).child("selectedRestaurant").setValue("null");
 
                             toastMessage("Logged in.");
 
