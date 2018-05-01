@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Yemeklik-loca.iml" filepath="$PROJECT_DIR$/Yemeklik-loca.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YemeklikGitHub.iml" filepath="$PROJECT_DIR$/YemeklikGitHub.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

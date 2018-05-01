@@ -1,5 +1,7 @@
 package com.come335.burak.erdem.yemeklik;
 
+import java.util.ArrayList;
+
 /**
  * Created by Erdem on 22-Apr-18.
  */
@@ -13,10 +15,21 @@ public class SingleMeal
     float totalPoints;
     int timesRated;
     float rating;
+    private ArrayList<String> restaurants = new ArrayList<>();
 
     public SingleMeal()
     {
 
+    }
+
+    public ArrayList<String> getRestaurants()
+    {
+        return restaurants;
+    }
+
+    public void setRestaurants(ArrayList<String> restaurants)
+    {
+        this.restaurants = restaurants;
     }
 
     public int getId()

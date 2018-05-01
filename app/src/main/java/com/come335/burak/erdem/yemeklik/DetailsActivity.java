@@ -26,6 +26,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,6 +35,8 @@ import java.util.Date;
  */
 
 public class DetailsActivity extends AppCompatActivity {
+
+    private ArrayList<String> restaurants = new ArrayList<>();
 
     int mealId;
     String mealName;
@@ -168,9 +171,11 @@ public class DetailsActivity extends AppCompatActivity {
                     tempMeal.setName(dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getName());
                     tempMeal.setContent(dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getContent());
                     tempMeal.setPhotoURL(dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getPhotoURL());
+                    tempMeal.setRestaurants(dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getRestaurants());
                     mealName = tempMeal.getName();
                     mealContent = tempMeal.getContent();
                     mealImage = tempMeal.getPhotoURL();
+                    restaurants = tempMeal.getRestaurants();
                 }
 
                 mealTimesRated = dataSnapshot.child("meals").child(String.valueOf(mealId)).getValue(SingleMeal.class).getTimesRated();
@@ -181,7 +186,7 @@ public class DetailsActivity extends AppCompatActivity {
                 myRef.child("meals").child(String.valueOf(mealId)).child("rating").setValue(mealRating);
                 ratingT.setText(String.format("%.1f", mealRating));
 
-                setDetails(boolSetDetailsOnce);
+                setDetails();
             }
 
             @Override
@@ -210,6 +215,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 Intent intent = new Intent(DetailsActivity.this, MapActivity.class);
+                intent.putStringArrayListExtra("restaurants", restaurants);
                 startActivity(intent);
             }
         });
@@ -238,9 +244,9 @@ public class DetailsActivity extends AppCompatActivity {
         return false;
     }
 
-    private void setDetails(boolean _bool)
+    private void setDetails()
     {
-        if(_bool == true)
+        if(boolSetDetailsOnce == true)
         {
             boolSetDetailsOnce = false;
 
