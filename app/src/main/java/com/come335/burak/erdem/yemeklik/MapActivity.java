@@ -241,6 +241,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         mMap.clear();
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapActivity.this));
 
         if (placeInfo !=null) {
             try{
